@@ -1,33 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import ToDoList  from "./components/ToDoList.jsx"
+import { useState } from "react";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [tasks, setTasks] = useState([
+    "Läsa React-dokumentationen",
+    "Göra klart todolistan",
+    "Testa olika hooks"
+  ]);
+  const [newTask, setNewTask] = useState("");
+
+  const handleInputChange = (event) => {
+    setNewTask(event.target.value);
+  };
+  const handleAddTask = () => {
+    if(newTask.trim() !== ""){
+      setTasks([...tasks, newTask]);
+      setNewTask("");
+    }
+  }
+  const handleRemoveLastTask = () => {
+    if (tasks.length > 0) {
+      setTasks(tasks.slice(0, -1));
+    }
+  };
 
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <ToDoList tasks={tasks} handleRemoveLastTask={handleRemoveLastTask} />
+            <input 
+              type="text" 
+              value={newTask} 
+              onChange={handleInputChange} 
+              placeholder="Lägg till en ny uppgift" 
+            />
+          <button onClick={handleAddTask}>Lägg till</button><br></br>
+          <button onClick={handleRemoveLastTask}>Ta bort senaste uppgiften</button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
