@@ -8,24 +8,48 @@ function App() {
     "Testa olika hooks"
   ]);
   const [newTask, setNewTask] = useState("");
+  const [editIndex, setEditIndex] = useState(null);
+  const [editText, setEditText] = useState("");
 
   const handleInputChange = (event) => {
     setNewTask(event.target.value);
   };
+
   const handleAddTask = () => {
     if(newTask.trim() !== ""){
       setTasks([...tasks, newTask]);
       setNewTask("");
     }
   }
+
   const handleRemoveTask = (indexToRemove) => {
     setTasks(tasks.filter((_, index) => index !== indexToRemove));
   };
 
+  const handleEditTask = (index) => {
+    setEditIndex(index);
+    setEditText(tasks[index]);
+  }
+  const handleSaveEdit = () =>{
+    const updatedTasks = [...tasks];
+    updatedTasks[editIndex] = editText;
+    setTasks(updatedTasks);
+    setEditIndex(null);
+    setEditText("");
+  }
+
   return (
     <>
-      <div>
-        <ToDoList tasks={tasks} handleRemoveTask={handleRemoveTask} />
+      <div> 
+        <ToDoList 
+          tasks={tasks} 
+          handleRemoveTask={handleRemoveTask} 
+          handleEditTask={handleEditTask} 
+          editIndex={editIndex} 
+          editText={editText} 
+          setEditText={setEditText} 
+          handleSaveEdit={handleSaveEdit} 
+        />
             <input 
               type="text" 
               value={newTask} 
