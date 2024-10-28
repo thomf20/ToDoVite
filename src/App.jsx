@@ -18,16 +18,14 @@ function App() {
       setNewTask("");
     }
   }
-  const handleRemoveLastTask = () => {
-    if (tasks.length > 0) {
-      setTasks(tasks.slice(0, -1));
-    }
+  const handleRemoveTask = (indexToRemove) => {
+    setTasks(tasks.filter((_, index) => index !== indexToRemove));
   };
 
   return (
     <>
       <div>
-        <ToDoList tasks={tasks} handleRemoveLastTask={handleRemoveLastTask} />
+        <ToDoList tasks={tasks} handleRemoveTask={handleRemoveTask} />
             <input 
               type="text" 
               value={newTask} 
@@ -35,7 +33,7 @@ function App() {
               placeholder="Lägg till en ny uppgift" 
             />
           <button onClick={handleAddTask}>Lägg till</button><br></br>
-          <button onClick={handleRemoveLastTask}>Ta bort senaste uppgiften</button>
+          <button onClick={handleRemoveTask}>Ta bort senaste uppgiften</button>
       </div>
     </>
   )
